@@ -31,9 +31,9 @@ public class MastercardProperties {
 	/**
 	 * Used for refund and pay requests
 	 * 
-	 * @param orderId
-	 * @param transactionReference
-	 * @return
+	 * @param orderId an unique identifier provided by user of this SDK. It will be used by you to track transactions about one order
+	 * @param transactionReference an unique identifier. Orders can have multiples transactions associeted with it
+	 * @return String
 	 */
 	public String getTransactionUrl(String orderId, String transactionReference) {
 		return String.format(

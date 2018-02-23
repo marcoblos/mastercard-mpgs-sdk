@@ -28,7 +28,7 @@ public class UUIDUtils {
 	/**
 	 * Generate unique token with quantity parameter, max value is 48 if quantity parameter is great than 48 assume that parameter is 48
 	 * 
-	 * @param length
+	 * @param length the size of string
 	 * @return String
 	 */
 	public static String generate(int length) {
