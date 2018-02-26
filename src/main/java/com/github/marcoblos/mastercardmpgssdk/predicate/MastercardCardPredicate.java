@@ -17,12 +17,8 @@ import lombok.Getter;
 public enum MastercardCardPredicate {
 
 	// * cardNumber = 0 - 9 length > 8 and < 20
-	// * cardSecurityCode = 0 - 9 length > 2 and < 5
 
-	CARD_NUMBER_IS_VALID("mastercard.source-of-funds.provided.card.number", (MastercardAPIRequest r) -> cardNumberIsValid(r.getSourceOfFunds().getProvided().getCard().getNumber())),
-	CARD_SECURITY_CODE_IS_VALID(
-			"mastercard.source-of-funds.provided.card.security-code",
-			(MastercardAPIRequest r) -> securityCodeIsValid(r.getSourceOfFunds().getProvided().getCard().getSecurityCode()));
+	CARD_NUMBER_IS_VALID("mastercard.source-of-funds.provided.card.number", (MastercardAPIRequest r) -> cardNumberIsValid(r.getSourceOfFunds().getProvided().getCard().getNumber()));
 
 	private String code;
 	private String field;
@@ -36,10 +32,6 @@ public enum MastercardCardPredicate {
 
 	private static boolean cardNumberIsValid(String cardNumber) {
 		return cardNumber != null ? cardNumber.length() > 8 && cardNumber.length() < 20 : false;
-	}
-
-	private static boolean securityCodeIsValid(String securityCode) {
-		return securityCode != null ? securityCode.length() > 2 && securityCode.length() < 5 : false;
 	}
 
 	public static Map<String, Predicate<MastercardAPIRequest>> getPredicates() {

@@ -52,9 +52,8 @@ public class MastercardPayRequestValidatorTest {
 	public void invalid_card_pay_request_object() {
 		MastercardAPIRequest request = MastercardPayRequestFactory.build(buildInvalidCardPayRequestDTO());
 		MastercardResponse mastercardResponse = payValidator.validate(request);
-		Assert.assertEquals(mastercardResponse.getErrors().size(), 2);
+		Assert.assertEquals(mastercardResponse.getErrors().size(), 1);
 		Assert.assertTrue(compareMastercardResponseAndField(mastercardResponse, "mastercard.source-of-funds.provided.card.number"));
-		Assert.assertTrue(compareMastercardResponseAndField(mastercardResponse, "mastercard.source-of-funds.provided.card.security-code"));
 	}
 
 	@Test
