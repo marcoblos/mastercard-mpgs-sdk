@@ -21,6 +21,8 @@ public class MastercardTransaction implements Serializable {
 
 	private String id;
 
+	private String authorizationCode;
+
 	private MastercardAcquirer acquirer;
 
 	private BigDecimal amount;

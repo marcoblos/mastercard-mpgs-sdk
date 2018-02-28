@@ -13,6 +13,7 @@ import lombok.Getter;
 public enum MastercardAPIOperationType {
 
 	PAY("Payment (Purchase)", HttpMethod.PUT),
+	RETRIEVE("Retrieve", HttpMethod.GET),
 	REFUND("Refund", HttpMethod.PUT),
 	NOOP("No operation", null);
 

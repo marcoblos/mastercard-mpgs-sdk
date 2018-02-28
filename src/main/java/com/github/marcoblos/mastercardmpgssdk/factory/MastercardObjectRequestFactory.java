@@ -4,6 +4,8 @@ import com.github.marcoblos.mastercardmpgssdk.dto.MastercardRequestDTO;
 import com.github.marcoblos.mastercardmpgssdk.dto.MastercardRequestResponseDTO;
 import com.github.marcoblos.mastercardmpgssdk.validator.MastercardPayRequestValidator;
 import com.github.marcoblos.mastercardmpgssdk.validator.MastercardRefundRequestValidator;
+import com.github.marcoblos.mastercardmpgssdk.validator.MastercardRetrieveRequestValidator;
+import com.github.marcoblos.mastercardmpgssdk.validator.MastercardValidator;
 
 /**
  * 
@@ -12,8 +14,9 @@ import com.github.marcoblos.mastercardmpgssdk.validator.MastercardRefundRequestV
  */
 public class MastercardObjectRequestFactory {
 
-	private static MastercardPayRequestValidator payValidator = new MastercardPayRequestValidator();
-	private static MastercardRefundRequestValidator refundValidator = new MastercardRefundRequestValidator();
+	private static MastercardValidator payValidator = new MastercardPayRequestValidator();
+	private static MastercardValidator retrieveValidator = new MastercardRetrieveRequestValidator();
+	private static MastercardValidator refundValidator = new MastercardRefundRequestValidator();
 
 	public static MastercardRequestResponseDTO build(MastercardRequestDTO dto) {
 		dto = getValidMastercardRequestDTO(dto);
@@ -22,6 +25,10 @@ public class MastercardObjectRequestFactory {
 			case PAY:
 				responseRequestDTO.setRequest(MastercardPayRequestFactory.build(dto));
 				responseRequestDTO.setResponse(payValidator.validate(responseRequestDTO.getRequest()));
+				return responseRequestDTO;
+			case RETRIEVE:
+				responseRequestDTO.setRequest(MastercardRetrieveRequestFactory.build(dto));
+				responseRequestDTO.setResponse(retrieveValidator.validate(responseRequestDTO.getRequest()));
 				return responseRequestDTO;
 			case REFUND:
 				responseRequestDTO.setRequest(MastercardRefundRequestFactory.build(dto));

@@ -1,6 +1,8 @@
 package com.github.marcoblos.mastercardmpgssdk.dto;
 
 import java.math.BigDecimal;
+import java.time.Year;
+import java.time.format.DateTimeFormatter;
 
 import com.github.marcoblos.mastercardmpgssdk.domain.MastercardAPIOperationType;
 
@@ -40,11 +42,36 @@ public class MastercardRequestDTO {
 
 	private String userId;
 
+	private static String forceCardYearTwoDigits(String cardYear) {
+		if (cardYear.length() > 2) {
+			return cardYear = Year.parse(cardYear).format(DateTimeFormatter.ofPattern("uu"));
+		}
+		return cardYear;
+	}
+
 	/**
 	 * It is a workaround because @Builder.Default didn't work see this issue on GitHub https://github.com/rzwitserloot/lombok/issues/1347
 	 */
 	public MastercardRequestDTO() {
 		this.apiOperation = MastercardAPIOperationType.NOOP;
+	}
+
+	public void setCardYear(String cardYear) {
+		this.cardYear = MastercardRequestDTO.forceCardYearTwoDigits(cardYear);
+	}
+
+	public static MastercardRequestDTOBuilder builder() {
+		return new CustomMastercardRequestDTOBuilder();
+	}
+
+	private static class CustomMastercardRequestDTOBuilder extends MastercardRequestDTOBuilder {
+
+		@Override
+		public MastercardRequestDTO build() {
+			super.cardYear = MastercardRequestDTO.forceCardYearTwoDigits(super.cardYear);
+			return super.build();
+		}
+
 	}
 
 }
