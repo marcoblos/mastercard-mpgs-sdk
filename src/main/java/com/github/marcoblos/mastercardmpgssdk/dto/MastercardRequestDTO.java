@@ -3,6 +3,7 @@ package com.github.marcoblos.mastercardmpgssdk.dto;
 import java.math.BigDecimal;
 import java.time.Year;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 import com.github.marcoblos.mastercardmpgssdk.domain.MastercardAPIOperationType;
 
@@ -43,10 +44,17 @@ public class MastercardRequestDTO {
 	private String userId;
 
 	private static String forceCardYearTwoDigits(String cardYear) {
-		if (cardYear.length() > 2) {
-			return cardYear = Year.parse(cardYear).format(DateTimeFormatter.ofPattern("uu"));
+		String cardYearFormated = cardYear;
+		if (cardYearFormated.length() > 2) {
+			try {
+				cardYearFormated = Year.parse(cardYear).format(DateTimeFormatter.ofPattern("uu"));
+			} catch (DateTimeParseException e) {
+				// do nothing! we have some explanation about it!
+				// we try to format the card year but if DateTimeFormatter is not work properly we can ignoring here
+				// because user will receive and error from validators more readable than we can provide from here
+			}
 		}
-		return cardYear;
+		return cardYearFormated;
 	}
 
 	/**
