@@ -45,7 +45,7 @@ public class MastercardRequestDTO {
 
 	private static String forceCardYearTwoDigits(String cardYear) {
 		String cardYearFormated = cardYear;
-		if (cardYearFormated.length() > 2) {
+		if (cardYearFormated != null && cardYearFormated.length() > 2) {
 			try {
 				cardYearFormated = Year.parse(cardYear).format(DateTimeFormatter.ofPattern("uu"));
 			} catch (DateTimeParseException e) {
