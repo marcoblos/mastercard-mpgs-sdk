@@ -22,7 +22,10 @@ public class MastercardRestTemplate extends RestTemplate {
 				new AuthScope(AuthScope.ANY),
 				new UsernamePasswordCredentials("merchant.".concat(merchantId), apiKey));
 		HttpClient httpClient = HttpClients.custom().setDefaultCredentialsProvider(credsProvider).build();
-		super.setRequestFactory(new HttpComponentsClientHttpRequestFactory(httpClient));
+		HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory(httpClient);
+		factory.setConnectionRequestTimeout(10 * 1000);
+		factory.setReadTimeout(10 * 1000);
+		super.setRequestFactory(factory);
 		super.setErrorHandler(errorHandler());
 	}
 
