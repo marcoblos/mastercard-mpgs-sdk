@@ -6,7 +6,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.github.marcoblos.mastercardmpgssdk.domain.MastercardAPIOperationType;
-import com.github.marcoblos.mastercardmpgssdk.domain.MastercardSourceOfFundsType;
 import com.github.marcoblos.mastercardmpgssdk.dto.MastercardRequestDTO;
 import com.github.marcoblos.mastercardmpgssdk.help.UUIDUtils;
 import com.github.marcoblos.mastercardmpgssdk.model.MastercardAPIRequest;
@@ -51,8 +50,8 @@ public class MastercardRefundRequestFactoryTest {
 		Assert.assertTrue(request.getOrder().getTotalAuthorizedAmount() == null);
 		Assert.assertTrue(request.getOrder().getTotalCapturedAmount() == null);
 		Assert.assertTrue(request.getOrder().getTotalRefundedAmount() == null);
-		Assert.assertEquals(request.getApiOperation(), MastercardAPIOperationType.REFUND);
-		Assert.assertEquals(request.getSourceOfFunds().getType(), MastercardSourceOfFundsType.CARD);
+		Assert.assertEquals(MastercardAPIOperationType.REFUND, request.getApiOperation());
+		Assert.assertEquals(null, request.getSourceOfFunds().getType());
 	}
 
 	@Test
@@ -88,8 +87,8 @@ public class MastercardRefundRequestFactoryTest {
 		Assert.assertTrue(request.getOrder().getTotalAuthorizedAmount() == null);
 		Assert.assertTrue(request.getOrder().getTotalCapturedAmount() == null);
 		Assert.assertTrue(request.getOrder().getTotalRefundedAmount() == null);
-		Assert.assertEquals(request.getApiOperation(), MastercardAPIOperationType.REFUND);
-		Assert.assertEquals(request.getSourceOfFunds().getType(), MastercardSourceOfFundsType.CARD);
+		Assert.assertEquals(MastercardAPIOperationType.REFUND, request.getApiOperation());
+		Assert.assertEquals(null, request.getSourceOfFunds().getType());
 	}
 
 	private MastercardRequestDTO buildSuccessRefundRequestDTOWithExcessiveInformations() {
