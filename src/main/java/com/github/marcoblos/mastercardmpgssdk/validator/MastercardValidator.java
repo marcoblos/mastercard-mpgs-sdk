@@ -11,7 +11,7 @@ import com.github.marcoblos.mastercardmpgssdk.model.MastercardResponse;
 
 /**
  * 
- * @author marcoblos 2018-02-22
+ * @author marcoblos 2018-03-12
  *
  */
 public abstract class MastercardValidator {

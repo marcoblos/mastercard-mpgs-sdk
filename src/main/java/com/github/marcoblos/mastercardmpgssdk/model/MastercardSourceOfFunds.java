@@ -18,7 +18,7 @@ public class MastercardSourceOfFunds implements Serializable {
 
 	private static final long serialVersionUID = 2257591051755126776L;
 
-	private MastercardSourceOfFundsType type = MastercardSourceOfFundsType.CARD;
+	private MastercardSourceOfFundsType type;
 
 	private MastercardProvided provided;
 

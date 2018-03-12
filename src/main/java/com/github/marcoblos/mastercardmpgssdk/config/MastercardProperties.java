@@ -43,4 +43,10 @@ public class MastercardProperties {
 				transactionReference);
 	}
 
+	public String getSessionUrl() {
+		return String.format(
+				getUrl().concat("/merchant/%s/session"),
+				getMerchantId());
+	}
+
 }

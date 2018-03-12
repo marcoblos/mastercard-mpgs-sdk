@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 
 import com.github.marcoblos.mastercardmpgssdk.config.MastercardProperties;
 import com.github.marcoblos.mastercardmpgssdk.config.MastercardRestTemplate;
+import com.github.marcoblos.mastercardmpgssdk.domain.MastercardRequestType;
 import com.github.marcoblos.mastercardmpgssdk.dto.MastercardRequestResponseDTO;
 import com.github.marcoblos.mastercardmpgssdk.help.UUIDUtils;
 import com.github.marcoblos.mastercardmpgssdk.model.MastercardAPIRequest;
@@ -27,11 +28,19 @@ public class MastercardBaseRequest {
 		}
 
 		ResponseEntity<MastercardAPIResponse> call = restTemplate.exchange(
-				properties.getTransactionUrl(orderReference, UUIDUtils.generate(40)),
+				getTransactionUrl(properties, requestResponseDTO, orderReference),
 				requestResponseDTO.getRequest().getApiOperation().getHttpMethod(),
 				new HttpEntity<MastercardAPIRequest>(requestResponseDTO.getRequest()),
 				MastercardAPIResponse.class);
 		return buildResponse(call);
+	}
+
+	private static String getTransactionUrl(MastercardProperties properties, MastercardRequestResponseDTO requestResponseDTO, String orderReference) {
+		if (requestResponseDTO.getRequest().getApiOperation().getRequestType().equals(MastercardRequestType.TRANSACTION)) {
+			return properties.getTransactionUrl(orderReference, UUIDUtils.generate(40));
+		} else {
+			return properties.getSessionUrl();
+		}
 	}
 
 	public static MastercardResponse buildResponse(ResponseEntity<MastercardAPIResponse> call) {

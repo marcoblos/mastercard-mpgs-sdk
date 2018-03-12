@@ -3,6 +3,7 @@ package com.github.marcoblos.mastercardmpgssdk.factory;
 import java.util.Date;
 
 import com.github.marcoblos.mastercardmpgssdk.domain.MastercardAPIOperationType;
+import com.github.marcoblos.mastercardmpgssdk.domain.MastercardSourceOfFundsType;
 import com.github.marcoblos.mastercardmpgssdk.dto.MastercardRequestDTO;
 import com.github.marcoblos.mastercardmpgssdk.model.MastercardAPIRequest;
 import com.github.marcoblos.mastercardmpgssdk.model.MastercardCard;
@@ -41,6 +42,7 @@ public class MastercardPayRequestFactory {
 
 	private static MastercardSourceOfFunds newSourceOfFunds(MastercardRequestDTO dto) {
 		MastercardSourceOfFunds sourceOfFunds = new MastercardSourceOfFunds();
+		sourceOfFunds.setType(MastercardSourceOfFundsType.CARD);
 		sourceOfFunds.setProvided(newProvided(dto));
 		return sourceOfFunds;
 	}

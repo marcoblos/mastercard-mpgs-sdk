@@ -12,19 +12,22 @@ import lombok.Getter;
 @Getter
 public enum MastercardAPIOperationType {
 
-	PAY("Payment (Purchase)", HttpMethod.PUT),
-	RETRIEVE("Retrieve", HttpMethod.GET),
-	REFUND("Refund", HttpMethod.PUT),
-	NOOP("No operation", null);
+	PAY("Payment (Purchase)", HttpMethod.PUT, MastercardRequestType.TRANSACTION),
+	RETRIEVE("Retrieve", HttpMethod.GET, MastercardRequestType.TRANSACTION),
+	REFUND("Refund", HttpMethod.PUT, MastercardRequestType.TRANSACTION),
+	NOOP("No operation", null, MastercardRequestType.TRANSACTION),
+	CREATE_CHECKOUT_SESSION("Create checkout session", HttpMethod.POST, MastercardRequestType.SESSION);
 
 	private String code;
 	private String messageKey;
 	private HttpMethod httpMethod;
+	private MastercardRequestType requestType;
 
-	MastercardAPIOperationType(String messageKey, HttpMethod httpMethod) {
+	MastercardAPIOperationType(String messageKey, HttpMethod httpMethod, MastercardRequestType requestType) {
 		code = this.name();
 		this.messageKey = messageKey;
 		this.httpMethod = httpMethod;
+		this.requestType = requestType;
 	}
 
 }

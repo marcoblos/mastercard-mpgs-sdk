@@ -2,6 +2,7 @@ package com.github.marcoblos.mastercardmpgssdk.predicate;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
@@ -51,6 +52,16 @@ public enum MastercardOrderPredicate {
 		Map<String, Predicate<MastercardAPIRequest>> predicates = new HashMap<>();
 		for (MastercardOrderPredicate p : MastercardOrderPredicate.values()) {
 			predicates.put(p.getField(), p.getPredicate());
+		}
+		return predicates;
+	}
+
+	public static Map<String, Predicate<MastercardAPIRequest>> getPredicates(List<MastercardOrderPredicate> customPredicates) {
+		Map<String, Predicate<MastercardAPIRequest>> predicates = new HashMap<>();
+		for (MastercardOrderPredicate p : MastercardOrderPredicate.values()) {
+			if (customPredicates.contains(p)) {
+				predicates.put(p.getField(), p.getPredicate());
+			}
 		}
 		return predicates;
 	}
