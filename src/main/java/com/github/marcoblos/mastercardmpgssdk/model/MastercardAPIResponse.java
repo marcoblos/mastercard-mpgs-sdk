@@ -34,4 +34,10 @@ public class MastercardAPIResponse implements Serializable {
 
 	private MastercardTransaction transaction;
 
+	private String correlationId;
+
+	private MastercardSession session;
+
+	private String successIndicator;
+
 }

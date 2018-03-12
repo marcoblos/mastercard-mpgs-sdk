@@ -38,6 +38,12 @@ public class MastercardResponse implements Serializable {
 
 	private MastercardTransaction transaction;
 
+	private String correlationId;
+
+	private MastercardSession session;
+
+	private String successIndicator;
+
 	public MastercardResponse() {
 		this.order = new MastercardOrder();
 		this.errors = new ArrayList<>();

@@ -56,6 +56,9 @@ public class MastercardBaseRequest {
 				.merchant(response.getMerchant())
 				.response(response.getResponse())
 				.transaction(response.getTransaction())
+				.correlationId(response.getCorrelationId())
+				.session(response.getSession())
+				.successIndicator(response.getSuccessIndicator())
 				.build();
 	}
 
