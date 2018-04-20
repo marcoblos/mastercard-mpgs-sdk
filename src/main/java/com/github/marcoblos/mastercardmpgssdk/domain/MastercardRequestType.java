@@ -11,6 +11,7 @@ import lombok.Getter;
 public enum MastercardRequestType {
 
 	TRANSACTION("Transaction Request"),
+	ORDER("Order Request"),
 	SESSION("Session Request");
 
 	private String code;

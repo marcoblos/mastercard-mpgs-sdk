@@ -1,15 +1,17 @@
 package com.github.marcoblos.mastercardmpgssdk.core;
 
 import java.util.Arrays;
+import java.util.Map;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 
 import com.github.marcoblos.mastercardmpgssdk.config.MastercardProperties;
 import com.github.marcoblos.mastercardmpgssdk.config.MastercardRestTemplate;
+import com.github.marcoblos.mastercardmpgssdk.domain.MastercardAPIOperationType;
 import com.github.marcoblos.mastercardmpgssdk.domain.MastercardRequestType;
+import com.github.marcoblos.mastercardmpgssdk.domain.MastercardURLParametersType;
 import com.github.marcoblos.mastercardmpgssdk.dto.MastercardRequestResponseDTO;
-import com.github.marcoblos.mastercardmpgssdk.help.UUIDUtils;
 import com.github.marcoblos.mastercardmpgssdk.model.MastercardAPIRequest;
 import com.github.marcoblos.mastercardmpgssdk.model.MastercardAPIResponse;
 import com.github.marcoblos.mastercardmpgssdk.model.MastercardResponse;
@@ -22,25 +24,35 @@ import com.github.marcoblos.mastercardmpgssdk.model.MastercardStatus;
  */
 public class MastercardBaseRequest {
 
-	public static MastercardResponse execute(MastercardRestTemplate restTemplate, MastercardProperties properties, MastercardRequestResponseDTO requestResponseDTO, String orderReference) {
+	public static MastercardResponse execute(MastercardRestTemplate restTemplate, MastercardProperties properties, MastercardRequestResponseDTO requestResponseDTO,
+			Map<MastercardURLParametersType, String> parameters) {
 		if (!requestResponseDTO.getResponse().getErrors().isEmpty()) {
 			return requestResponseDTO.getResponse();
 		}
 
 		ResponseEntity<MastercardAPIResponse> call = restTemplate.exchange(
-				getTransactionUrl(properties, requestResponseDTO, orderReference),
+				getTransactionUrl(properties, requestResponseDTO, parameters),
 				requestResponseDTO.getRequest().getApiOperation().getHttpMethod(),
-				new HttpEntity<MastercardAPIRequest>(requestResponseDTO.getRequest()),
+				new HttpEntity<MastercardAPIRequest>(clearAttributesBeforeSendRequest(requestResponseDTO.getRequest())),
 				MastercardAPIResponse.class);
 		return buildResponse(call);
 	}
 
-	private static String getTransactionUrl(MastercardProperties properties, MastercardRequestResponseDTO requestResponseDTO, String orderReference) {
-		if (requestResponseDTO.getRequest().getApiOperation().getRequestType().equals(MastercardRequestType.TRANSACTION)) {
-			return properties.getTransactionUrl(orderReference, UUIDUtils.generate(40));
-		} else {
-			return properties.getSessionUrl();
+	private static MastercardAPIRequest clearAttributesBeforeSendRequest(MastercardAPIRequest request) {
+		MastercardAPIOperationType requestType = request.getApiOperation();
+		switch (requestType) {
+			case OPEN_WALLET:
+				request.setApiOperation(null);
+				break;
+			default:
+				break;
 		}
+		return request;
+	}
+
+	private static String getTransactionUrl(MastercardProperties properties, MastercardRequestResponseDTO requestResponseDTO, Map<MastercardURLParametersType, String> parameters) {
+		MastercardRequestType requestType = requestResponseDTO.getRequest().getApiOperation().getRequestType();
+		return properties.getUrl(requestType, parameters);
 	}
 
 	public static MastercardResponse buildResponse(ResponseEntity<MastercardAPIResponse> call) {

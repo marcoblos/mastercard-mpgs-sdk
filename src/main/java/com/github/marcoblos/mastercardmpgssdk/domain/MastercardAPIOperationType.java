@@ -13,10 +13,11 @@ import lombok.Getter;
 public enum MastercardAPIOperationType {
 
 	PAY("Payment (Purchase)", HttpMethod.PUT, MastercardRequestType.TRANSACTION),
-	RETRIEVE("Retrieve", HttpMethod.GET, MastercardRequestType.TRANSACTION),
 	REFUND("Refund", HttpMethod.PUT, MastercardRequestType.TRANSACTION),
 	NOOP("No operation", null, MastercardRequestType.TRANSACTION),
-	CREATE_CHECKOUT_SESSION("Create checkout session", HttpMethod.POST, MastercardRequestType.SESSION);
+	RETRIEVE("Retrieve", HttpMethod.GET, MastercardRequestType.ORDER),
+	CREATE_CHECKOUT_SESSION("Create checkout session", HttpMethod.POST, MastercardRequestType.SESSION),
+	OPEN_WALLET("Open wallet", HttpMethod.POST, MastercardRequestType.SESSION);
 
 	private String code;
 	private String messageKey;

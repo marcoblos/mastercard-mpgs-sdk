@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 import com.github.marcoblos.mastercardmpgssdk.domain.MastercardAPIOperationType;
+import com.github.marcoblos.mastercardmpgssdk.domain.MastercardWalletProviderType;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -42,6 +43,8 @@ public class MastercardRequestDTO {
 	private String customerEmail;
 
 	private String userId;
+
+	private MastercardWalletProviderType walletProvider;
 
 	private static String forceCardYearTwoDigits(String cardYear) {
 		String cardYearFormated = cardYear;

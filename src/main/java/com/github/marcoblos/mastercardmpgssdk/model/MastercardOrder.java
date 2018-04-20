@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
 
+import com.github.marcoblos.mastercardmpgssdk.domain.MastercardWalletProviderType;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -39,6 +41,8 @@ public class MastercardOrder implements Serializable {
 	private BigDecimal totalCapturedAmount;
 
 	private BigDecimal totalRefundedAmount;
+
+	private MastercardWalletProviderType walletProvider;
 
 	public String getCustomerOrderDate() {
 		return this.customerOrderDate != null ? new SimpleDateFormat("yyyy-MM-dd").format(customerOrderDate) : null;

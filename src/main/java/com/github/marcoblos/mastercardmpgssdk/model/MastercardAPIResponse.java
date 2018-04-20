@@ -40,4 +40,6 @@ public class MastercardAPIResponse implements Serializable {
 
 	private String successIndicator;
 
+	private MastercardWallet wallet;
+
 }

@@ -1,5 +1,12 @@
 package com.github.marcoblos.mastercardmpgssdk.config;
 
+import java.util.Map;
+
+import org.springframework.util.Assert;
+
+import com.github.marcoblos.mastercardmpgssdk.domain.MastercardRequestType;
+import com.github.marcoblos.mastercardmpgssdk.domain.MastercardURLParametersType;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,33 +27,63 @@ public class MastercardProperties {
 
 	private String apiKey;
 
-	private String getUrl() {
+	private String getDefaultUrl() {
 		return getBaseUrl().concat(getApiVersion());
 	}
 
 	public String getInformationUrl() {
-		return getUrl().concat("/information");
+		return getDefaultUrl().concat("/information");
 	}
 
 	/**
 	 * Used for refund and pay requests
 	 * 
-	 * @param orderId an unique identifier provided by user of this SDK. It will be used by you to track transactions about one order
+	 * @param orderReference an unique identifier provided by user of this SDK. It will be used by you to track transactions about one order
 	 * @param transactionReference an unique identifier. Orders can have multiples transactions associeted with it
 	 * @return String
 	 */
-	public String getTransactionUrl(String orderId, String transactionReference) {
+	public String getTransactionUrl(String orderReference, String transactionReference) {
+		Assert.notNull(orderReference, "orderReference is null");
+		Assert.notNull(transactionReference, "transactionReference is null");
 		return String.format(
-				getUrl().concat("/merchant/%s/order/%s/transaction/%s"),
+				getDefaultUrl().concat("/merchant/%s/order/%s/transaction/%s"),
 				getMerchantId(),
-				orderId,
+				orderReference,
 				transactionReference);
 	}
 
-	public String getSessionUrl() {
+	public String getOrderUrl(String orderReference) {
+		Assert.notNull(orderReference, "orderReference is null");
 		return String.format(
-				getUrl().concat("/merchant/%s/session"),
-				getMerchantId());
+				getDefaultUrl().concat("/merchant/%s/order/%s"),
+				getMerchantId(),
+				orderReference);
+	}
+
+	public String getSessionUrl(String sessionId) {
+		if (sessionId == null) {
+			return String.format(
+					getDefaultUrl().concat("/merchant/%s/session"),
+					getMerchantId());
+		} else {
+			return String.format(
+					getDefaultUrl().concat("/merchant/%s/session/%s"),
+					getMerchantId(),
+					sessionId);
+		}
+	}
+
+	public String getUrl(MastercardRequestType operationType, Map<MastercardURLParametersType, String> parameters) {
+		switch (operationType) {
+			case TRANSACTION:
+				return this.getTransactionUrl(parameters.get(MastercardURLParametersType.ORDER_REFERENCE), parameters.get(MastercardURLParametersType.TRANSACTION_REFERENCE));
+			case SESSION:
+				return this.getSessionUrl(parameters.get(MastercardURLParametersType.SESSION_ID));
+			case ORDER:
+				return this.getOrderUrl(parameters.get(MastercardURLParametersType.ORDER_REFERENCE));
+			default:
+				return "";
+		}
 	}
 
 }

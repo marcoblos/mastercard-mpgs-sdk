@@ -44,6 +44,8 @@ public class MastercardResponse implements Serializable {
 
 	private String successIndicator;
 
+	private MastercardWallet wallet;
+
 	public MastercardResponse() {
 		this.order = new MastercardOrder();
 		this.errors = new ArrayList<>();
